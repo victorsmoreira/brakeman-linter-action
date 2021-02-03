@@ -20,6 +20,9 @@ class GithubCheckRunService
     @annotations = @report_adapter.annotations(@report)
     @conclusion = @report_adapter.conslusion(@report)
 
+    pp '$' * 20
+    pp '%' * 20
+
     result = {}
     @annotations.each_slice(MAX_ANNOTATIONS_SIZE) do |annotations|
       result.merge(client_patch(id, annotations))
