@@ -17,4 +17,16 @@ describe GithubCheckRunService do
     output = service.run
     expect(output).to be_a(Hash)
   end
+
+  context 'annotation limit set' do
+    it 'updates the check run multiple times' do
+      stub_request(:any, 'https://api.github.com/repos/owner/repository_name/check-runs')
+        .to_return(status: 200, body: '{"id": "id"}')
+
+      stub_const("GithubCheckRunService::MAX_ANNOTATIONS_SIZE", 2)
+      allow(service).to receive(:client_patch).and_return({})
+      expect(service).to receive(:client_patch).twice
+      service.run
+    end
+  end
 end
