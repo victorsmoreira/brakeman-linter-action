@@ -28,6 +28,16 @@ Brakeman is a static analysis tool which checks Ruby on Rails applications for s
     REPORT_PATH: tmp/brakeman.json
 ```
 
+### Custom path
+
+```yml
+- name: Brakeman
+  uses: devmasx/brakeman-linter-action@v1.0.0
+  env:
+    GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    PROJECT_PATH: my_rails_app
+```
+
 ### Example Workflow
 
 ```

@@ -11,6 +11,8 @@ def read_json(path)
   JSON.parse(File.read(path))
 end
 
+project_path = ENV['PROJECT_PATH'].nil? ? ENV['GITHUB_WORKSPACE'] : "#{ENV['GITHUB_WORKSPACE']}/#{ENV['PROJECT_PATH']}"
+
 @event_json = read_json(ENV['GITHUB_EVENT_PATH']) if ENV['GITHUB_EVENT_PATH']
 @github_data = {
   sha: ENV['GITHUB_SHA'],
@@ -23,7 +25,7 @@ end
   if ENV['REPORT_PATH']
     read_json(ENV['REPORT_PATH'])
   else
-    Dir.chdir(ENV['GITHUB_WORKSPACE']) { JSON.parse(`brakeman -f json`) }
+    Dir.chdir(project_path) { JSON.parse(`brakeman -f json`) }
   end
 
 GithubCheckRunService.new(@report, @github_data, ReportAdapter).run
